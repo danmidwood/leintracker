@@ -1,6 +1,6 @@
-# a.new.thing
+# Dependency Thing
 
-Oh, what is it going to be
+If your lein dependencies are out of date then I will tell you so. Don't be lazy people.
 
 Copyright © 2013 Dan Midwood
 
