@@ -1,3 +1,4 @@
+window.onload=function(){findRepos();};
 // variable to hold request
 var request;
 function findUpdatable(event){
@@ -31,15 +32,17 @@ function findUpdatable(event){
             // log a message to the console
 
 	    var responseList = JSON.parse(response);
-	    $("#results").append("<ul id=\"upgrades\"></ul>");
-	    for (var i = 0; i < responseList.length; i++) {
-		console.log(responseList[i]);
-		var upgrade = responseList[i];
-		$("#upgrades").append("<li>" + upgrade.name + " can be upgraded to " + upgrade.version + "</li>");
+	    if (responseList.length == 0) {
+		$("#results").append("Everything is up to date");
 	    }
-
-
-            
+	    else {
+		$("#results").append("<ul id=\"upgrades\"></ul>");
+		for (var i = 0; i < responseList.length; i++) {
+		    console.log(responseList[i]);
+		    var upgrade = responseList[i];
+		    $("#upgrades").append("<li>" + upgrade.name + " can be upgraded to " + upgrade.version + "</li>");
+		}
+	    }
         } else {
             $("#results").append('<div id="errors" class="alert">Could not examine project. Is it Leiningen?</div>');
         }
@@ -71,7 +74,7 @@ $("select#project").change(findUpdatable);
 
 var repoAutocompleteRequest;
 // bind to the submit event of our form
-$("input#username").change(function(event){
+function findRepos(){
     
 
     var $username = $(this);
@@ -88,6 +91,11 @@ $("input#username").change(function(event){
 	function isClojure(repo, index, array) { 
 	    console.log(repo);
 	    return repo.language == "Clojure"
+	}
+
+	$project.rem
+	while ($project.hasChildNodes()) {
+	    $project.removeChild($project.lastChild);
 	}
 
 	var clojureRepos = response.filter(isClojure);
@@ -113,7 +121,8 @@ $("input#username").change(function(event){
     });
 
 
-    event.preventDefault();
-});
+};
+
+$("input#username").change(findRepos);
     
     

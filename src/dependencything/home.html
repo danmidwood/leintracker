@@ -18,7 +18,9 @@
 	<h1>Lein Tracker</h1>
 	<form id="find" action="#" method="GET">
 	  <p>
-	    <input id="username" name="username" type="text" value="Github username" />
+	    <label for="username">Github username</label>
+	    <input id="username" name="username" type="text"/><br/>
+	    <label for="project">Clojure repos</label>
 	    <select id="project" name="project" type="text"/>
 	  </p>
 	  <p id="results"/>
@@ -31,7 +33,7 @@
       g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
       s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
-    <script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>
-    <script src="js/depthing.js" type="text/javascript"></script>
+    <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <script src="/js/depthing.js" type="text/javascript"></script>
   </body>
 </html>

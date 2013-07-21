@@ -16,7 +16,7 @@
 
 (html/deftemplate index "dependencything/home.html"
   [ctxt]
-  [:p#headp] (html/content (:project ctxt)))
+  [:input#username] (html/set-attr :value (:user ctxt)))
 
 
 (defn find-dependencies [user project]
@@ -32,7 +32,11 @@
 (defroutes app-routes
   (GET "/" [] 
        {:status 200
-        :body (apply str (index {:project "yo"}))})
+        :body (apply str (index {:user ""}))})
+  (GET "/user/:user" [user] 
+       {:status 200
+        :body (apply str (index {:user user}))})
+
   (GET "/user/:user/project/:project/dependencies" [user project]
           {:status 200
            :body (json/generate-string (find-dependencies user project))})
