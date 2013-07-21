@@ -81,7 +81,7 @@ function findRepos(){
     var $project = $("select#project")[0];
 
     var repoAutocompleteRequest = $.ajax({
-        url: "https://api.github.com/users/" + username.value + "/repos",
+        url: "https://api.github.com/users/" + username.value + "/repos?per_page=100",
         type: "GET"
     });
 
