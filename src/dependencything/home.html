@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Dependency Thing</title>
+    <title>Lein Tracker</title>
+    <link href="/css/depthing.css" rel="stylesheet" type="text/css">
     <link href="/css/reset.css" rel="stylesheet" type="text/css">
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
   </head>
@@ -9,22 +10,18 @@
     <div class="container-narrow">
       <div class="masthead">
 	<ul class="nav nav-pills pull-right">
-	  <li class="active">
-	    <a href="#">Home</a>
-	</li>
 	</ul>
 	<h3>Are your dependencies out of date yet?</h3>
       </div>
       <hr>
       <div class="jumbotron">
-	<h1>Clojure Dependency Thing!</h1>
+	<h1>Lein Tracker</h1>
 	<form id="find" action="#" method="GET">
 	  <p>
 	    <input id="username" name="username" type="text" value="Github username" />
-	    <input id="project" name="project" type="text" value="Github project" />
+	    <select id="project" name="project" type="text"/>
 	  </p>
-	  <img src="img/website_under_construction1-624x225.png"/>
-	  <input class="btn btn-large btn-success" type="submit" value="To The Cloud!" />
+	  <p id="results"/>
 	</form>
       </div>
     </div>
@@ -34,5 +31,7 @@
       g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
       s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
+    <script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <script src="js/depthing.js" type="text/javascript"></script>
   </body>
 </html>
