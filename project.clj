@@ -14,7 +14,9 @@
                  [ring/ring-jetty-adapter "1.2.0"]
                  [cheshire "5.2.0"]
                  [clj-http "0.7.5"]]
-  :profiles {:dev {:plugins [[lein-midje "2.0.4"]]}}
+  :profiles {:dev {:plugins [[lein-midje "2.0.4"]]}
+             :production {:env {:production true}}}
   :plugins [[lein-ring "0.8.3"]]
   :ring {:handler dependencything.web/app}
-  :main dependencything.main)
+  :main dependencything.main
+  :min-lein-version "2.0.0")
