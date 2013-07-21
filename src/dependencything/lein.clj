@@ -40,7 +40,7 @@
 
 (defn get-outdated []
   (let [current-deps (read-dependencies)
-        latest-deps (map find-latest-version (read-dependencies))]
+        latest-deps (pmap find-latest-version current-deps)]
     (for [current current-deps
           latest latest-deps
           :when (= (:name current) (:name latest))
