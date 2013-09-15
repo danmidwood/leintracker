@@ -3,6 +3,7 @@
             [compojure.handler :as handler]
             [compojure.route :as route]
             [ring.middleware.params :as rparams]
+            [ring.middleware.reload :as rreload]
             [cheshire.core :as json]
             [clojure.java.io :as io]
             [dependencything.lein :as dtlein]
@@ -14,9 +15,27 @@
 (defn make-github-url [user project]
   (str "https://raw.github.com/" user "/" project "/master/project.clj"))
 
-(html/deftemplate index "dependencything/home.html"
+(def default-home {:title "LeinTracker"
+                   :logo "LeinTracker Beta"
+                   :page-headline "Keep your dependencies in line."
+                   :features-headline "Why should you choose LeinTracker"})
+
+(html/deftemplate notmerged-index "dependencything/home.html"
   [ctxt]
-  [:input#username] (html/set-attr :value (:user ctxt)))
+  [:title] (html/content (:title ctxt))
+  [:h1.logo] (html/content (:logo ctxt))
+  [:h2#home-headline] (html/content (:page-headline ctxt))  
+  [:h2#features-headline] (html/content (:features-headline ctxt))  
+;  [:input#username] (html/set-attr :value (:user ctxt ""))
+  )
+
+(defn index [ctxt]
+  (notmerged-index (merge default-home ctxt)))
+
+;; (html/deftemplate index "dependencything/report.html"
+;;   [ctxt]
+;;   [:input#username] (html/set-attr :value (:user ctxt "")))
+
 
 
 (defn find-dependencies [user project]
@@ -31,8 +50,9 @@
 
 (defroutes app-routes
   (GET "/" [] 
-       {:status 200
-        :body (apply str (index {:user ""}))})
+       (let [body (index {:user ""})]
+             {:status 200
+              :body (apply str body)}))
   (GET "/user/:user" [user] 
        {:status 200
         :body (apply str (index {:user user}))})
@@ -40,13 +60,15 @@
   (GET "/user/:user/project/:project/dependencies" [user project]
           {:status 200
            :body (json/generate-string (find-dependencies user project))})
-  (route/resources "/")
+  (route/resources "/" {:root "the-story"})
   (route/not-found "Not Found"))
 
 
 
 (def app
-  (do (handler/site
-       (rparams/wrap-params app-routes))))
+  (-> app-routes
+      (handler/site)
+      (rparams/wrap-params)
+      (rreload/wrap-reload '(dependencything.web))))
 
 
