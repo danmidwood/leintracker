@@ -17,15 +17,15 @@
 
 (def default-home {:title "LeinTracker"
                    :logo "LeinTracker Beta"
-                   :page-headline "Keep your dependencies in line."
-                   :features-headline "Why should you choose LeinTracker"})
+                   :page-headline "Keep your Clojure dependencies in line."
+                   :features-headline "Why should you use LeinTracker"})
 
 (html/deftemplate notmerged-index "dependencything/home.html"
   [ctxt]
   [:title] (html/content (:title ctxt))
   [:h1.logo] (html/content (:logo ctxt))
-  [:h2#home-headline] (html/content (:page-headline ctxt))  
-  [:h2#features-headline] (html/content (:features-headline ctxt))  
+  [:h2#home-headline] (html/content (:page-headline ctxt))
+  [:h2#features-headline] (html/content (:features-headline ctxt))
 ;  [:input#username] (html/set-attr :value (:user ctxt ""))
   )
 
@@ -49,11 +49,11 @@
       (dtlein/run (.getAbsolutePath file)))))
 
 (defroutes app-routes
-  (GET "/" [] 
+  (GET "/" []
        (let [body (index {:user ""})]
              {:status 200
               :body (apply str body)}))
-  (GET "/user/:user" [user] 
+  (GET "/user/:user" [user]
        {:status 200
         :body (apply str (index {:user user}))})
 
@@ -67,8 +67,7 @@
 
 (def app
   (-> app-routes
+      ;(asset-pipeline config-options)
       (handler/site)
       (rparams/wrap-params)
       (rreload/wrap-reload '(dependencything.web))))
-
-

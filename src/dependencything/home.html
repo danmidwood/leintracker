@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  
+
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -10,7 +10,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
     <!-- Le styles -->
-    <link href="assets/less/style.min.css" rel="stylesheet"> 
+    <link href="assets/less/style.min.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -50,7 +50,7 @@
     $(function() {
     jQuery.history.listen()
       $('#nav .nav .scroll').click(function() {
-      $.history.push($(this).attr('href')); 
+      $.history.push($(this).attr('href'));
       });
     });
     </script>
@@ -68,23 +68,26 @@
       <header class="navbar navbar-fixed-top">
         <div class="inner-page">
           <h1 class="logo"></h1>
-            <div id="nav">
-              <ul class="nav">
-                <li class="active"><a title="Home page" class="scroll brand-1" href="#home">Home</a></li>
-                <li><a title="See what we can do" href="#features" class=" scroll brand-4">Features</a></li>
-                 <li><a title="Who we are" href="#about" class="scroll fadeto brand-4"> About us</a></li>
-                <li><a title="Get in touch!" href="#contact" class="scroll brand-2">Contact</a></li>
-                <li><a title="Try it now" href="sample-page.html" class=" brand-4">Try it!</a></li>
-              </ul>
-            </div>
-        </div> 
+          <div id="nav">
+            <ul class="nav">
+              <li class="active"><a title="Home page" class="scroll brand-1" href="#home">Home</a></li>
+              <li><a title="See what we can do" href="#features" class="scroll brand-4">Features</a></li>
+              <li><a title="Who we are" href="#about" class="scroll fadeto brand-4"> About us</a></li>
+              <li><a title="Try it now" href="sample-page.html" class=" brand-4">Demo</a></li>
+
+              <li class="dropdown">
+                <a title="Sign in" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-github"> </i>Sign in</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </header>
-      
+
       <!-- Home Page -->
       <div id="home" class="page color-1">
         <div class="inner-page">
           <h2 id="home-headline" class="page-headline large"></h2>
-        </div>  
+        </div>
         <div class="row-fluid inner-page">
           <div class="span6 pull-right lazy-container">
             <img class="lazy" alt="Looks great on every device" src="assets/img/pixel.png" data-original="assets/img/home.png"/>
@@ -117,33 +120,43 @@
         <div class="inner-page row-fluid">
           <ul class="features list-inline">
             <li>
-              <h3><i class="icon-cog"></i> Uses Leiningen</h3>
-              <p><strong>LeinTracker</strong> can read your Leiningen project files, analyse them, and generate reports of dependencies available to be upgraded.</p>
+              <h3><i class="icon-cog"></i> Leiningen Projects</h3>
+              <p><strong>LeinTracker</strong> can read your Leiningen project files, analyse them, and notify you about the freshness of your application dependencies.</p>
             </li>
             <li>
-              <h3><i class="icon-cog"></i> And GitHub</h3>
-              <p><strong>LeinTracker</strong> can read your Leiningen project files, analyse them, and generate reports of dependencies available to be upgraded.</p>
+              <h3><i class="icon-github"></i> Github Integration</h3>
+              <p>With <strong>LeinTracker's</strong> GitHub integration your Leiningen projects can be easily added. There are even build badges available for your READMEs.</p>
             </li>
             <li>
-              <h3><i class="icon-cog"></i> For every device.</h3>
-              <p><strong>LeinTracker</strong> is built to look great on every device. Custom menu for mobile devices, to ensure the best expierence. word word.</p>
+              <h3><i class="icon-envelope"></i> Email Reports.</h3>
+              <p><strong>LeinTracker</strong> email reports can notify you about updates to libraries you depend on. The reports are configurable in scope and delivery rate. </p>
             </li>
+            <li>
+              <h3><i class="icon-cog"></i> RESTful API.</h3>
+	      <<strong>LeinTracker</strong> exposes services allowing you to push new projects for analysis, manage them and then pull dependency reports.</p>
+              <p></p>
+            </li>
+            <li>
+              <h3><i class="icon-cog"></i> Looks Great.</h3>
+              <p><strong>LeinTracker</strong> web is built using responsive design to look great on desktops, build screens and mobile devices.</p>
+            </li>
+
             </ul>
         </div>
-                         
+
         <div class="row-fluid inner-page">
           <div class="span6 lazy-container">
             <img class="figurette lazy" src="assets/img/pixel.png" data-original="assets/img/two-phones.png" alt="Zombie ipsum" />
           </div>
-          <div class="span6">           
-            <h3>All artwork included</h3>
-            <p class="lead">Present your project properly. Create your own art from included templates</p>
+          <div class="span6">
+            <h3>Some more things</h3>
+            <p class="lead">content here</p>
             <ul class="list-wide">
               <li><i class="icon-check"></i> More than 300 awesome icons from <a href="http://fortawesome.github.io/Font-Awesome/" title="awesome font, awesome">Font-awesome</a></li>
               <li><i class="icon-check"></i> Browser icons</li>
               <li><i class="icon-check"></i> Phone, tablet, laptop, desktop vectors (SVG)</li>
               <li><i class="icon-check"></i> 5 Layered PSD files.</li>
-            </ul>         
+            </ul>
           </div>
         </div>
 
@@ -168,7 +181,7 @@
             <a href="#download" class="scroll btn btn-centered"><i class="icon-plus"></i> Even more features</a>
           </div>
         </div>
-      </div> <!-- /Features --> 
+      </div> <!-- /Features -->
 
 
 
@@ -261,12 +274,12 @@
         </div>
       </div>
 
-      <!-- The footer, social media icons, and copyright -->        
+      <!-- The footer, social media icons, and copyright -->
       <footer class="page color-5">
         <div class="inner-page row-fluid">
           <div class="span6 social">
             <a href="#contact"><i class="icon-twitter"></i></a>
-            <a href="#contact"><i class="icon-github-sign"></i></a>    
+            <a href="#contact"><i class="icon-github-sign"></i></a>
             <a href="#contact"><i class="icon-facebook-sign"></i></a>
             <a href="#contact"><i class="icon-google-plus-sign"></i></a>
           </div>
