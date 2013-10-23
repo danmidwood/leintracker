@@ -1,10 +1,9 @@
-(ns dependencything.main
-  (:use dependencything.web)
-  (:require [ring.adapter.jetty :as ring]))
-
+(ns leintracker.main
+  (:require [ring.adapter.jetty :as ring]
+            [leintracker.web :as web]))
 
 (defn start [port]
-  (ring/run-jetty (var app)
+  (ring/run-jetty (var web/app)
                   {:port (or port 8080) :join? false}))
 
 (defn -main

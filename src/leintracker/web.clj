@@ -1,4 +1,4 @@
-(ns dependencything.web
+(ns leintracker.web
   (:require [compojure.core :refer [defroutes routes GET POST PUT]]
             [compojure.handler :as handler]
             [compojure.route :as route]
@@ -6,10 +6,8 @@
             [ring.middleware.reload :as rreload]
             [cheshire.core :as json]
             [clojure.java.io :as io]
-            [dependencything.lein :as dtlein]
-            [dependencything.core :as core]
-            [dependencything.auth :as dtauth]
-            [dependencything.github :as dtgh]
+            [leintracker.core :as core]
+            [leintracker.auth :as dtauth]
             [net.cgrand.enlive-html :as html]))
 
 (defmacro defjson [name args & body]
@@ -19,7 +17,7 @@
   ([expr] `(if-let [x# ~expr] (html/content x#) identity))
   ([expr & exprs] `(maybe-content (or ~expr ~@exprs))))
 
-(html/deftemplate index "dependencything/home.html"
+(html/deftemplate index "leintracker/home.html"
   [{:keys [title logo page-headline features-headline user]}]
   [:title] (maybe-content title)
   [:h1.logo] (maybe-content logo)
@@ -36,7 +34,7 @@
 
 (defroutes base
   (GET "/" req
-         (render-home (dtauth/read-identity req)))
+       (render-home (dtauth/read-identity req)))
   (route/resources "/" {:root "the-story"})
   (route/not-found "Not Found"))
 
@@ -45,13 +43,17 @@
        {:status 200
         :body (apply str (index {:user user}))})
   (GET "/user/:user/project/:project/dependencies" [user project]
-          {:status 200
-           :body (json/generate-string (core/find-dependencies user project))})
-)
+       {:status 200
+        :body (json/generate-string (core/find-dependencies user project))})
+  )
 
 (def app
   (-> (routes signed-in dtauth/auth-routes base)
-      ;(asset-pipeline config-options)
+                                        ;(asset-pipeline config-options)
       (handler/site)
       (rparams/wrap-params)
-      (rreload/wrap-reload '(dependencything.web dependencything.github dependencything.auth))))
+      (rreload/wrap-reload '(leintracker.web
+                             leintracker.core
+                             leintracker.auth
+                             leintracker.github
+                             leintracker.lein))))

@@ -1,4 +1,4 @@
-(ns dependencything.lein
+(ns leintracker.lein
   (:require [leiningen.core.project :as lein.project]
             [cemerick.pomegranate.aether :as aether]))
 

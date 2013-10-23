@@ -1,8 +1,6 @@
-(defproject a.new.thing "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+(defproject leintracker "0.1.0-SNAPSHOT"
+  :description "Leiningen Dependency Tracker Web App"
+  :url "http://leintracker.com/"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [leiningen-core "2.2.0"]
                  [midje/midje "1.6-alpha2" :scope "test"]
@@ -22,6 +20,6 @@
   :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.3"]
             [environ/environ.lein "0.2.1"]]
-  :ring {:handler dependencything.web/app}
-  :main dependencything.main
+  :ring {:handler leintracker.web/app}
+  :main leintracker.main
   :min-lein-version "2.0.0")
