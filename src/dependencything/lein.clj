@@ -52,4 +52,3 @@
   (binding
       [*project* (lein.project/read project-file)]
     (get-outdated)))
-

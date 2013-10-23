@@ -35,23 +35,23 @@
 
 (defroutes github-routes-unsecure
   (GET "/logout" req
-    (friend/logout* (redirect-to-home req)))
+       (friend/logout* (redirect-to-home req)))
   (GET "/login" req
-    (friend/authenticated
-     (redirect-to-home req))))
+       (friend/authenticated
+        (redirect-to-home req))))
 
 (defroutes auth-routes
   (friend/authenticate
-    github-routes-unsecure
-    {:allow-anon? true
-     :default-landing-uri "/"
-     :login-uri auth-callback-path
-     :unauthorized-handler #("You do not have sufficient privileges to access " (:uri %))
-     :workflows [(oauth2/workflow
-                  {:client-config client-config
-                   :uri-config uri-config
-                   :config-auth {}
-                   :access-token-parsefn #(-> %
-                                              :body
-                                              codec/form-decode
-                                              (get "access_token"))})]}))
+   github-routes-unsecure
+   {:allow-anon? true
+    :default-landing-uri "/"
+    :login-uri auth-callback-path
+    :unauthorized-handler #("You do not have sufficient privileges to access " (:uri %))
+    :workflows [(oauth2/workflow
+                 {:client-config client-config
+                  :uri-config uri-config
+                  :config-auth {}
+                  :access-token-parsefn #(-> %
+                                             :body
+                                             codec/form-decode
+                                             (get "access_token"))})]}))
