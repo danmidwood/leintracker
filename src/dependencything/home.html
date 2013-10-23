@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>LeinTracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Twitter bootstrap theme">
     <meta name="author" content="prettystrap">
@@ -67,7 +67,7 @@
       <!-- Navigation -->
       <header class="navbar navbar-fixed-top">
         <div class="inner-page">
-          <h1 class="logo"></h1>
+          <h1 class="logo">LeinTracker Beta</h1>
           <div id="nav">
             <ul class="nav">
               <li class="active"><a title="Home page" class="scroll brand-1" href="#home">Home</a></li>
@@ -75,9 +75,8 @@
               <li><a title="Who we are" href="#about" class="scroll fadeto brand-4"> About us</a></li>
               <li><a title="Try it now" href="sample-page.html" class=" brand-4">Demo</a></li>
 
-              <li class="dropdown">
-                <a title="Sign in" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-github"> </i>Sign in</a>
-              </li>
+              <li><a title="Sign out" href="/logout"><i class="icon-github"> </i>Sign out</a></li>
+              <li><a id="username" title="Sign in" href="/login"><i class="icon-github"> </i>Sign in</a></li>
             </ul>
           </div>
         </div>
@@ -86,7 +85,7 @@
       <!-- Home Page -->
       <div id="home" class="page color-1">
         <div class="inner-page">
-          <h2 id="home-headline" class="page-headline large"></h2>
+          <h2 id="home-headline" class="page-headline large">Keep your Clojure dependencies in line.</h2>
         </div>
         <div class="row-fluid inner-page">
           <div class="span6 pull-right lazy-container">
@@ -114,7 +113,7 @@
       <!-- Features -->
       <div id="features" class="page color-4">
         <div class="inner-page">
-          <h2 id="features-headline" class="page-headline"></h2>
+          <h2 id="features-headline" class="page-headline">Why should you use LeinTracker</h2>
         </div>
 
         <div class="inner-page row-fluid">
