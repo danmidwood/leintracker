@@ -20,6 +20,6 @@
   :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.3"]
             [environ/environ.lein "0.2.1"]]
-  :ring {:handler leintracker.web/app}
+  :ring {:handler leintracker.web.web/app}
   :main leintracker.main
   :min-lein-version "2.0.0")

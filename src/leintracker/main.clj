@@ -1,6 +1,6 @@
 (ns leintracker.main
   (:require [ring.adapter.jetty :as ring]
-            [leintracker.web :as web]))
+            [leintracker.web.web :as web]))
 
 (defn start [port]
   (ring/run-jetty (var web/app)

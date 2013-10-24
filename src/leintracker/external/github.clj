@@ -1,4 +1,4 @@
-(ns leintracker.github
+(ns leintracker.external.github
   (:use compojure.core)
   (:require
    [clj-http.client :as http]

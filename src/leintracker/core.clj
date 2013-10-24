@@ -1,6 +1,6 @@
 (ns leintracker.core
-  (:require [leintracker.lein :as lein]
-            [leintracker.github :as github]
+  (:require [leintracker.external.lein :as lein]
+            [leintracker.external.github :as github]
             [clojure.java.io :as io]))
 
 (defn find-dependencies [user project]

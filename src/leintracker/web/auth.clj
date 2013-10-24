@@ -1,4 +1,4 @@
-(ns leintracker.auth
+(ns leintracker.web.auth
   (:use compojure.core)
   (:require [cemerick.friend :as friend]
             [friend-oauth2.workflow :as oauth2]
