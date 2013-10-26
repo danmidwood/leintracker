@@ -65,7 +65,6 @@
   [:ul.nav] (html/do->
               (html/append (nav-entry (merge home-button {:selected true})))
               (html/append (nav-entry features-button))
-              (html/append (nav-entry about-button))
               (html/append (nav-entry (login-button user)))))
 
 
@@ -84,5 +83,4 @@
            (html/append (nav-bar user))
            (html/append (home-page))
            (html/append (page-split))
-           (html/append (features-page))
-           (html/append (about-page))))
+           (html/append (features-page))))
