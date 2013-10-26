@@ -70,12 +70,12 @@
 
 
 
-(html/defsnippet home-page "leintracker/web/html/home-page.html" [:#home] [])
+(html/defsnippet home-page "leintracker/web/html/home.html" [:#home] [])
 (html/defsnippet about-page "leintracker/web/html/about.html" [:#about] [])
 (html/defsnippet features-page "leintracker/web/html/features.html" [:#features] [])
 (html/defsnippet page-split "leintracker/web/html/page-splitter.html" [:.split] [])
 
-(html/deftemplate index "leintracker/web/html/home.html"
+(html/deftemplate index "leintracker/web/html/template.html"
   [{:keys [title logo user]}]
   [:head] (html/append analytics)
   [:title] (maybe-content title)
