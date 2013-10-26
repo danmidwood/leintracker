@@ -25,7 +25,7 @@
 (defn ^:private user-representation [user]
   (if user
     {:id "username"
-     :title "Sign in"
+     :title "Sign out"
      :href "/logout"
      :icon "icon-github"
      :text user}
