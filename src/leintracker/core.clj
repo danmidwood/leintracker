@@ -14,3 +14,7 @@
 (defn home-page [identity]
   (when identity
     {:user (github/get-github-name identity)}))
+
+(defn repos-page [identity]
+  (when identity
+    {:user (github/get-github-name identity)}))
