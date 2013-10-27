@@ -10,7 +10,8 @@
             [leintracker.web.views.home :as views.home]
             [leintracker.web.views.repos :as views.repos]
             [leintracker.web.auth :as auth]
-            [net.cgrand.enlive-html :as html]))
+            [net.cgrand.enlive-html :as html]
+            [stefon.core :as stefon]))
 
 (defn render-home
   ([identity]
@@ -44,7 +45,7 @@
 
 (def app
   (-> (routes signed-in auth/auth-routes base)
-                                        ;(asset-pipeline config-options)
+      (stefon/asset-pipeline {:asset-roots ["resources/the-story/assets"]})
       (handler/site)
       (rparams/wrap-params)
       (rreload/wrap-reload '(leintracker.web.web

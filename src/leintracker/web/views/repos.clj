@@ -48,7 +48,9 @@
 
 (html/deftemplate index "leintracker/web/html/template.html"
   [{:keys [title logo user repos]}]
-  [:head] (html/append common/analytics)
+  [:head] (html/do->
+           (html/append (common/styles))
+           (html/append common/analytics))
   [:title] (common/maybe-content title)
   [:h1.logo] (common/maybe-content logo)
   [:body] (build-repos-body user repos))

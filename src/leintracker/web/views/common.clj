@@ -1,5 +1,6 @@
 (ns leintracker.web.views.common
-  (:require [net.cgrand.enlive-html :as html]))
+  (:require [net.cgrand.enlive-html :as html]
+            [stefon.core :as stefon]))
 
 
 (defmacro maybe-content
@@ -20,6 +21,12 @@
      :icon "icon-github"
      :brand "brand-4"
      :text "Sign in"}))
+
+(html/defsnippet styles "leintracker/web/html/link-stylesheet.html" [:link]
+  []
+  [:link] (html/set-attr :href (stefon/link-to-asset "style.less"
+                                       {:asset-roots ["resources/the-story/assets/less"]})))
+
 
 
 (def analytics ((html/snippet "leintracker/web/html/ga.html" [:script] [_]) {}) )

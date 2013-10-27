@@ -15,7 +15,8 @@
                  [com.cemerick/friend "0.1.5"]
                  [friend-oauth2 "0.0.4"]
                  [environ "0.4.0"]
-                 [tentacles "0.2.5"]]
+                 [tentacles "0.2.5"]
+                 [circleci/stefon "0.5.0-SNAPSHOT"]]
   :profiles {:dev {:plugins [[lein-midje "2.0.4"]]}
              :production {:env {:production true}}}
   :hooks [environ.leiningen.hooks]
