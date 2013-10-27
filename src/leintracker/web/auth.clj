@@ -29,7 +29,7 @@
 
 (defn redirect-to-home [req] (resp/redirect (str (:context req) "/")))
 
-(defn redirect-to-user [req] (resp/redirect (str (:context req) "/user")))
+(defn redirect-to-logged-in [req] (resp/redirect (str (:context req) "/repos")))
 
 (def read-identity friend/identity)
 
@@ -38,7 +38,7 @@
        (friend/logout* (redirect-to-home req)))
   (GET "/login" req
        (friend/authenticated
-        (redirect-to-home req))))
+        (redirect-to-logged-in req))))
 
 (defroutes auth-routes
   (friend/authenticate
