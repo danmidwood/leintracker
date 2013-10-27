@@ -6,22 +6,18 @@
    [ring.util.response :as resp]
    [ring.util.codec :as codec]
    [environ.core :refer [env]]
-   [clojure.java.io :as io]))
+   [clojure.java.io :as io]
+   [tentacles.core :as gh.core]
+   [tentacles.users :as gh.users]
+   [tentacles.repos :as gh.repos]))
 
-(defn- call-github
+(defn- head-github
   [endpoint access-token]
   (-> (format "https://api.github.com%s%s&access_token=%s"
               endpoint
               (when-not (.contains endpoint "?") "?")
               access-token)
-      http/get
-      :body
-      (json/parse-string (fn [^String s] (keyword (.replace s \_ \-))))))
-
-;; Go use an appropriate cache from https://github.com/clojure/core.cache
-(def get-public-repos (partial call-github "/user/repos?type=private"))
-
-(def get-user-name (comp :name (partial call-github "/user")))
+      (http/head {:throw-exceptions false})))
 
 (defn- make-github-url [user project]
   (str "https://raw.github.com/" user "/" project "/master/project.clj"))
@@ -30,6 +26,35 @@
   (let [location (make-github-url user project)]
     (io/reader location)))
 
-(defn get-github-name
-  [identity]
-  (get-user-name (:current identity)))
+(defn file-exists? [identity file {:keys [full-name]}]
+  (->> (:current identity)
+       (head-github (format "/repos/%s/contents%s" full-name file))
+       :status
+       (= 200)))
+
+(defn ^:private as-oauth [identity]
+  (clojure.set/rename-keys identity {:current :oauth-token}))
+
+
+(defn user-name [identity]
+  (-> (as-oauth identity)
+      gh.users/me
+      :name))
+
+(defn ^:private underscores-to-hyphens
+  "Change all underscore_keywords to hyphen_keywords"
+  {:added "1.1"}
+  [m]
+  (let [f (fn [[k v]] (if (keyword? k) [(keyword (.replace (name k) "_" "-")) v] [k v]))]
+    ;; only apply to maps
+    (clojure.walk/postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) m)))
+
+(defn ^:private get-all-pages [request]
+  (assoc request :all-pages true))
+
+(defn repos [identity]
+  (->> (as-oauth identity)
+      get-all-pages
+      gh.repos/repos
+      (remove empty?) ; for some reason we have empty records come through
+      underscores-to-hyphens))

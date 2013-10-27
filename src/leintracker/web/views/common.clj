@@ -24,6 +24,8 @@
 
 (def analytics ((html/snippet "leintracker/web/html/ga.html" [:script] [_]) {}) )
 
+(html/defsnippet footer "leintracker/web/html/footer.html" [:footer] [])
+
 (defn select [button]
   (merge button {:selected true}))
 

@@ -40,8 +40,7 @@
         :body (apply str (views.home/index {:user user}))})
   (GET "/user/:user/project/:project/dependencies" [user project]
        {:status 200
-        :body (json/generate-string (core/find-dependencies user project))})
-  )
+        :body (json/generate-string (core/find-dependencies user project))}))
 
 (def app
   (-> (routes signed-in auth/auth-routes base)
@@ -52,4 +51,6 @@
                              leintracker.core
                              leintracker.web.auth
                              leintracker.external.github
-                             leintracker.external.lein))))
+                             leintracker.external.lein
+                             leintracker.web.views.home
+                             leintracker.web.views.repos))))

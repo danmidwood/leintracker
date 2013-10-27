@@ -14,7 +14,8 @@
                  [clj-http "0.7.5"]
                  [com.cemerick/friend "0.1.5"]
                  [friend-oauth2 "0.0.4"]
-                 [environ "0.4.0"]]
+                 [environ "0.4.0"]
+                 [tentacles "0.2.5"]]
   :profiles {:dev {:plugins [[lein-midje "2.0.4"]]}
              :production {:env {:production true}}}
   :hooks [environ.leiningen.hooks]

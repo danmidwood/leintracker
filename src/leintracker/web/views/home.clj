@@ -38,7 +38,8 @@
    (html/append (common/nav-bar user (build-nav-bar user)))
    (html/append (home-page))
    (html/append (page-split))
-   (html/append (features-page))))
+   (html/append (features-page))
+   (html/append (common/footer))))
 
 (html/deftemplate index "leintracker/web/html/template.html"
   [{:keys [title logo user]}]
