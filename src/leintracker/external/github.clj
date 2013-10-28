@@ -19,11 +19,11 @@
               access-token)
       (http/head {:throw-exceptions false})))
 
-(defn- make-github-url [user project]
-  (str "https://raw.github.com/" user "/" project "/master/project.clj"))
+(defn- make-github-url [full-name]
+  (str "https://raw.github.com/" full-name "/master/project.clj"))
 
-(defn get-lein-file-reader [user project]
-  (let [location (make-github-url user project)]
+(defn get-lein-file-reader [{:keys [full-name]}]
+  (let [location (make-github-url full-name)]
     (io/reader location)))
 
 (defn file-exists? [identity file {:keys [full-name]}]
@@ -49,12 +49,16 @@
     ;; only apply to maps
     (clojure.walk/postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) m)))
 
-(defn ^:private get-all-pages [request]
+(defn ^:private all-pages [request]
   (assoc request :all-pages true))
+
+(defn ^:private public [request]
+  (assoc request :type "public"))
 
 (defn repos [identity]
   (->> (as-oauth identity)
-      get-all-pages
-      gh.repos/repos
-      (remove empty?) ; for some reason we have empty records come through
-      underscores-to-hyphens))
+       all-pages
+       public
+       gh.repos/repos
+       (remove empty?) ; for some reason we have empty records come through
+       underscores-to-hyphens))

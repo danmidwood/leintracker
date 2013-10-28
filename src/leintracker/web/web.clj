@@ -2,6 +2,7 @@
   (:require [compojure.core :refer [defroutes routes GET POST PUT]]
             [compojure.handler :as handler]
             [compojure.route :as route]
+            [ring.util.response :as rresponse]
             [ring.middleware.params :as rparams]
             [ring.middleware.reload :as rreload]
             [cheshire.core :as json]
@@ -24,8 +25,9 @@
   ([identity]
      (let [data (core/repos-page identity)
            body (views.repos/index data)]
-       {:status 200
-        :body (apply str body)})))
+{:status 200
+                           :body (apply str body)})))
+;(rresponse/charset  "UTF-8")
 
 (defroutes base
   (GET "/" req

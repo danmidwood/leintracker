@@ -13,14 +13,26 @@
    :text "Repositories"
    :brand "brand-4"})
 
+(html/defsnippet dependency-row "leintracker/web/html/dependency-row.html" [:tr]
+  [{:keys [name current-version latest-version]}]
+  [:tr] (html/do->
+         (html/append {:tag :td :content [name]})
+         (html/append {:tag :td :content [current-version]})
+         (html/append {:tag :td :content [latest-version]})
+         (html/append {:tag :td :content [(= current-version latest-version)]})))
+
+(defn ^:private dependency-rows [dependencies]
+  (map dependency-row dependencies))
+
 (html/defsnippet repository "leintracker/web/html/repository.html" [:.accordion-group]
-  [{:keys [name]}]
+  [{:keys [name description dependencies]}]
   [:.accordion-toggle] (html/do->
                         (html/content name)
                         (html/set-attr :href (str "#" name)))
   [:.accordion-body] (html/set-attr :id name)
-  [:.accordion-body :.accordion-inner :h4] (html/content "The title of this project")
-  [:.accordion-body :.accordion-inner :p] (html/content "The body of this project"))
+  [:.accordion-body :.accordion-inner :h4] (html/content description)
+  [:.accordion-body :.accordion-inner :table] (html/add-class "color-4")
+  [:.accordion-body :.accordion-inner :table :tbody] (html/append (dependency-rows dependencies)))
 
 
 (defn ^:private span [size content]

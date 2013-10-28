@@ -24,7 +24,7 @@
 
 (html/defsnippet styles "leintracker/web/html/link-stylesheet.html" [:link]
   []
-  [:link] (html/set-attr :href (stefon/link-to-asset "style.less"
+  [:link] (html/set-attr :href (stefon/link-to-asset "leintracker.less"
                                        {:asset-roots ["resources/the-story/assets/less"]})))
 
 

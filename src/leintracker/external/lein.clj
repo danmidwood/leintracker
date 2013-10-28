@@ -38,17 +38,19 @@
     latest
     {:name dep-group-and-name :version (latest 1)}))
 
-(defn get-outdated []
+(defn get-dependencies []
   (let [current-deps (read-dependencies)
         latest-deps (pmap find-latest-version current-deps)]
     (for [current current-deps
           latest latest-deps
           :when (= (:name current) (:name latest))
           :when (not= (:version current) (:version latest))]
-      latest)))
+      {:name (:name current)
+       :current-version (:version current)
+       :latest-version (:version latest)})))
 
 (defn run
   [project-file]
   (binding
       [*project* (lein.project/read project-file)]
-    (get-outdated)))
+    (get-dependencies)))
