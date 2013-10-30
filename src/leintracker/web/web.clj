@@ -3,7 +3,6 @@
             [compojure.handler :as handler]
             [compojure.route :as route]
             [ring.util.response :as rresponse]
-            [ring.middleware.params :as rparams]
             [ring.middleware.reload :as rreload]
             [cheshire.core :as json]
             [clojure.java.io :as io]
@@ -12,7 +11,8 @@
             [leintracker.web.views.repos :as views.repos]
             [leintracker.web.auth :as auth]
             [net.cgrand.enlive-html :as html]
-            [stefon.core :as stefon]))
+            [stefon.core :as stefon]
+            [taoensso.timbre :as log]))
 
 (defn render-home
   ([identity]
@@ -25,9 +25,8 @@
   ([identity]
      (let [data (core/repos-page identity)
            body (views.repos/index data)]
-{:status 200
-                           :body (apply str body)})))
-;(rresponse/charset  "UTF-8")
+       {:status 200
+        :body (apply str body)})))
 
 (defroutes base
   (GET "/" req
@@ -38,18 +37,25 @@
 (defroutes signed-in
   (GET "/repos" req
        (render-repos (auth/read-identity req)))
-  (GET "/user/:user" [user & req]
-       {:status 200
-        :body (apply str (views.home/index {:user user}))})
-  (GET "/user/:user/project/:project/dependencies" [user project]
-       {:status 200
-        :body (json/generate-string (core/find-dependencies user project))}))
+  (GET "/repos/:user/project/:project/dependencies" [user project]
+       (do  (log/info "Getting repos")
+            {:status 200
+             :body (json/generate-string (core/find-dependencies {:full-name (str user
+                                                                                  "/"
+                                                                                  project)}))})))
+
+(defn log-exceptions [f]
+  (fn [request]
+    (try (f request)
+      (catch Exception e
+        (log/error e)
+        (throw e)))))
 
 (def app
   (-> (routes signed-in auth/auth-routes base)
       (stefon/asset-pipeline {:asset-roots ["resources/the-story/assets"]})
       (handler/site)
-      (rparams/wrap-params)
+      (log-exceptions)
       (rreload/wrap-reload '(leintracker.web.web
                              leintracker.core
                              leintracker.web.auth

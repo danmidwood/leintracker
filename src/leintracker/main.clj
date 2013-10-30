@@ -1,8 +1,10 @@
 (ns leintracker.main
   (:require [ring.adapter.jetty :as ring]
-            [leintracker.web.web :as web]))
+            [leintracker.web.web :as web]
+            [taoensso.timbre :as log]))
 
 (defn start [port]
+  (log/info "Starting server on port: " port)
   (ring/run-jetty (var web/app)
                   {:port (or port 8080) :join? false}))
 

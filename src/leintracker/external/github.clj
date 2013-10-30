@@ -7,6 +7,7 @@
    [ring.util.codec :as codec]
    [environ.core :refer [env]]
    [clojure.java.io :as io]
+   [taoensso.timbre :as log]
    [tentacles.core :as gh.core]
    [tentacles.users :as gh.users]
    [tentacles.repos :as gh.repos]))
@@ -28,7 +29,9 @@
 
 (defn file-exists? [identity file {:keys [full-name]}]
   (->> (:current identity)
-       (head-github (format "/repos/%s/contents%s" full-name file))
+       (head-github (log/spy :debug
+                             "Checking for file:"
+                             (format "/repos/%s/contents%s" full-name file)))
        :status
        (= 200)))
 

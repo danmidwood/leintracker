@@ -4,7 +4,8 @@
             [friend-oauth2.workflow :as oauth2]
             [ring.util.response :as resp]
             [ring.util.codec :as codec]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [taoensso.timbre :as log]))
 
 (def ^:private auth-callback-path "/authcb")
 
@@ -35,10 +36,13 @@
 
 (defroutes github-routes-unsecure
   (GET "/logout" req
+
        (friend/logout* (redirect-to-home req)))
   (GET "/login" req
-       (friend/authenticated
-        (redirect-to-logged-in req))))
+       (do
+         (log/info "Logging in" req)
+         (friend/authenticated
+          (redirect-to-logged-in req)))))
 
 (defroutes auth-routes
   (friend/authenticate

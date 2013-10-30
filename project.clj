@@ -16,8 +16,11 @@
                  [friend-oauth2 "0.0.4"]
                  [environ "0.4.0"]
                  [tentacles "0.2.5"]
-                 [circleci/stefon "0.5.0-SNAPSHOT"]]
-  :profiles {:dev {:plugins [[lein-midje "2.0.4"]]}
+                 [circleci/stefon "0.5.0-SNAPSHOT"]
+                 [com.taoensso/timbre "2.6.3"]]
+  :profiles {:dev {:plugins [[lein-midje "2.0.4"]]
+                   :dependencies [[ring-server "0.3.0"]]
+                   :source-paths ["src-dev"]}
              :production {:env {:production true}}}
   :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.3"]

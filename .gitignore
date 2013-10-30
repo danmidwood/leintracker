@@ -46,3 +46,4 @@ pom.xml
 .DS_Store
 
 /.lein-env
+/leintracker.log
