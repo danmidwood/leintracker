@@ -12,7 +12,8 @@
   (reset! server (ring-server/serve web/app)))
 
 (defn stop []
-  (.stop @server)
-  (reset! server nil))
+  (when (not (nil? @server))
+    (.stop @server)
+    (reset! server nil)))
 
 (def restart (comp start stop))
