@@ -40,9 +40,13 @@
   (GET "/repos/:user/project/:project/dependencies" [user project]
        (do  (log/info "Getting repos")
             {:status 200
-             :body (json/generate-string (core/find-dependencies {:full-name (str user
-                                                                                  "/"
-                                                                                  project)}))})))
+             :body (->> (core/find-dependencies {:full-name (str user
+                                                                 "/"
+                                                                 project)})
+                        views.repos/dependency-rows
+                        (map html/emit*)
+                        flatten
+                        clojure.string/join)})))
 
 (defn log-exceptions [f]
   (fn [request]

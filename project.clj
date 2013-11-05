@@ -27,4 +27,5 @@
             [environ/environ.lein "0.2.1"]]
   :ring {:handler leintracker.web.web/app}
   :main leintracker.main
+  :global-vars {*warn-on-reflection* true}
   :min-lein-version "2.0.0")
