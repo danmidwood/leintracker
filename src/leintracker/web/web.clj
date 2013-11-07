@@ -28,6 +28,14 @@
        {:status 200
         :body (apply str body)})))
 
+(defn display-repos
+  ([identity]
+     (let [data (core/repos identity)
+           body (views.repos/selection data)]
+       {:status 200
+        :body (apply str body)})))
+
+
 (defroutes base
   (GET "/" req
        (render-home (auth/read-identity req)))
@@ -37,6 +45,8 @@
 (defroutes signed-in
   (GET "/repos" req
        (render-repos (auth/read-identity req)))
+  (GET "/repos/select" req
+       (display-repos (auth/read-identity req)))
   (GET "/repos/:user/project/:project/dependencies" [user project]
        (do  (log/info "Getting repos")
             {:status 200

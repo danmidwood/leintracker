@@ -63,10 +63,16 @@
 (defn ^:private load-repos [identity]
   (->> (get-repos identity)
        (pmap (partial add-is-lein-project identity))
-       (store-repos identity)
-       (pmap add-dependencies)))
+       (pmap #(assoc % :tracked :tracked))
+       (store-repos identity)))
 
 (defn repos-page [identity]
+  (when (log/spy :debug "Loading repos for" identity)
+    {:user (log/spy (github/user-name identity))
+     :repos (->> (load-repos identity)
+                 (pmap add-dependencies))}))
+
+(defn repos [identity]
   (when (log/spy :debug "Loading repos for" identity)
     {:user (log/spy (github/user-name identity))
      :repos (load-repos identity)}))

@@ -1,2 +1,77 @@
 @import "style.less";
 @import "bootstrap/tables.less";
+
+/* Repo selection boxes */
+/* Copy accordion style */
+repository-selection {
+  margin-bottom: @baseLineHeight;
+}
+
+// Group == heading + body
+repository-selection-group {
+  margin-bottom: 2px;
+  border: 1px solid #e5e5e5;
+  .border-radius(@baseBorderRadius);
+  border: 0;
+  margin: 0;
+  background: @color-3;
+  height: 150px;
+  overflow: hidden;
+}
+
+repository-selection-heading {
+  border-bottom: 0;
+  display: block;
+  padding: 8px 15px 2px 15px;
+  color: @color-4;
+  background: @color-1;
+  &:hover {background: @color-2;}
+  &.active {background: @color-2;}
+  i {
+    float: right;
+    font-size: 18px;
+  }
+  repo-description {
+    display: block;
+    font-size: 0.5em;
+    overflow:hidden;
+    height: 2em;
+  }
+}
+
+repository-selection-inner {
+  display: block;
+  padding: 9px 15px;
+  border-top: 0;
+  background: @color-3;
+  padding-bottom: @baseLineHeight;
+  position: relative;
+  a {
+    color: inherit;
+    i {
+      font-size: 18px;
+      float: right;
+    }
+    i.selected:before {
+        content: "\f046";
+    }
+    i.not-selected:before {
+        content: "\f096";
+    }
+  }
+  .github-link {
+    font-size: 10px;
+    padding: 0px;
+    padding-right: 5px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    i {
+      font-size: 10px;
+      line-height: inherit;
+    }
+    i.icon-github-sign:before {
+      content: "\00a0\f092"
+    }
+  }
+}

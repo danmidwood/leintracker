@@ -1,6 +1,7 @@
 (ns leintracker.web.views.repos
   (:require [net.cgrand.enlive-html :as html]
-            [leintracker.web.views.common :as common]))
+            [leintracker.web.views.common :as common]
+            [taoensso.timbre :as log]))
 
 (def ^:private home-button
   {:title "Home page"
@@ -97,6 +98,43 @@
                              (map (comp html/append repository-name) (filter (comp not :is-lein?) repos))))
   [:.accordion] (apply html/do-> (map (comp html/append repository-data) repos)))
 
+
+
+
+(html/defsnippet repository-box "leintracker/web/html/repositories-selection-box.html" [:repository-selection-box]
+  [repo]
+  [:repository-selection-box] (html/add-class "span4")
+  [:repo-name] (html/content (:name repo))
+  [:repo-description]  (common/maybe-content (if (clojure.string/blank? (:description repo))
+                                               "No description"
+                                               (:description repo)))
+  [:a.tracked :i] (html/add-class (case (:tracked repo)
+                                    :tracked "selected"
+                                    :not-tracked "not-selected"
+                                    :ineligible "N/A"
+                                    "N/A"))
+  [:repository-selection-inner] (html/append
+                                 (-> (:full-name repo)
+                                     ((html/wrap :a))
+                                     ((html/set-attr :href (:html-url repo)))
+                                     ((html/add-class "github-link"))
+                                     ((html/append ((html/add-class
+                                                      "icon-github-sign")
+                                                    ((html/wrap :i) nil)))))))
+
+(html/defsnippet repository-row "leintracker/web/html/repositories-selection-row.html" [:div]
+  [repos]
+  [:.row-fluid] (apply html/do->
+                 (map (comp html/append repository-box) repos)))
+
+
+(html/defsnippet repositories-selection-page "leintracker/web/html/repositories-selection.html" [:#repositories]
+  [repos]
+  [:.repos] (apply html/do->
+                   (map (comp html/append repository-row) (partition-all 3 repos))))
+
+
+
 (defn ^:private build-nav-bar [user]
   (html/do->
    (html/append (common/nav-entry home-button))
@@ -109,6 +147,12 @@
    (html/append (repositories-page repos))
    (html/append (common/footer))))
 
+(defn ^:private build-repos-selection-body [user repos]
+  (html/do->
+   (html/append (common/nav-bar user (build-nav-bar user)))
+   (html/append (repositories-selection-page repos))
+   (html/append (common/footer))))
+
 
 
 (html/deftemplate index "leintracker/web/html/template.html"
@@ -119,3 +163,12 @@
   [:title] (common/maybe-content title)
   [:h1.logo] (common/maybe-content logo)
   [:body] (build-repos-body user repos))
+
+(html/deftemplate selection "leintracker/web/html/template.html"
+  [{:keys [title logo user repos]}]
+  [:head] (html/do->
+           (html/append (common/styles))
+           (html/append common/analytics))
+  [:title] (common/maybe-content title)
+  [:h1.logo] (common/maybe-content logo)
+  [:body] (build-repos-selection-body user repos))
