@@ -108,11 +108,11 @@
   [:repo-description]  (common/maybe-content (if (clojure.string/blank? (:description repo))
                                                "No description"
                                                (:description repo)))
-  [:a.tracked :i] (html/add-class (case (:tracked repo)
-                                    :tracked "selected"
-                                    :not-tracked "not-selected"
-                                    :ineligible "N/A"
-                                    "N/A"))
+  [:a.tracked] (html/add-class (case (:tracked repo)
+                                 :tracked "selected"
+                                 :not-tracked "not-selected"
+                                 :ineligible "N/A"
+                                 "N/A"))
   [:repository-selection-inner] (html/append
                                  (-> (:full-name repo)
                                      ((html/wrap :a))
