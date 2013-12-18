@@ -2,10 +2,12 @@
   (:use compojure.core)
   (:require [cemerick.friend :as friend]
             [friend-oauth2.workflow :as oauth2]
+            [friend-oauth2.util :as oauth2-util]
             [ring.util.response :as resp]
             [ring.util.codec :as codec]
             [environ.core :refer [env]]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log]
+            [leintracker.external.github :as gh]))
 
 (def ^:private auth-callback-path "/authcb")
 
@@ -16,16 +18,16 @@
               :path auth-callback-path}})
 
 (def ^:private uri-config
-  {:authentication-uri {:url "https://github.com/login/oauth/authorize"
+  {:authentication-uri {:url (env :leintracker-gh-auth-uri)
                         :query {:client_id (:client-id client-config)
                                 :response_type "code"
-                                :redirect_uri (oauth2/format-config-uri client-config)
+                                :redirect_uri (oauth2-util/format-config-uri client-config)
                                 :scope ""}}
-   :access-token-uri {:url "https://github.com/login/oauth/access_token"
+   :access-token-uri {:url (env :leintracker-gh-access-token-uri)
                       :query {:client_id (:client-id client-config)
                               :client_secret (:client-secret client-config)
                               :grant_type "authorization_code"
-                              :redirect_uri (oauth2/format-config-uri client-config)
+                              :redirect_uri (oauth2-util/format-config-uri client-config)
                               :code ""}}})
 
 (defn redirect-to-home [req] (resp/redirect (str (:context req) "/")))
@@ -44,6 +46,19 @@
          (friend/authenticated
           (redirect-to-logged-in req)))))
 
+(defn ^:private credential-fn [creds]
+  (let
+      [token (:access-token creds)]
+    {:identity token
+     :user-name (log/spy (gh/user-name {:current token}))}))
+
+(def workflow (oauth2/workflow
+               {:client-config client-config
+                :uri-config uri-config
+                :config-auth {}
+                :credential-fn credential-fn
+                :access-token-parsefn oauth2-util/get-access-token-from-params}))
+
 (defroutes auth-routes
   (friend/authenticate
    github-routes-unsecure
@@ -51,11 +66,4 @@
     :default-landing-uri "/"
     :login-uri auth-callback-path
     :unauthorized-handler #("You do not have sufficient privileges to access " (:uri %))
-    :workflows [(oauth2/workflow
-                 {:client-config client-config
-                  :uri-config uri-config
-                  :config-auth {}
-                  :access-token-parsefn #(-> %
-                                             :body
-                                             codec/form-decode
-                                             (get "access_token"))})]}))
+    :workflows [workflow]}))

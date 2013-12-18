@@ -3,7 +3,21 @@
             [leintracker.external.github :as github]
             [clojure.java.io :as io]
             [taoensso.timbre :as log]
-            [clojure.core.reducers :as r]))
+            [clojure.core.reducers :as r]
+            [korma.db :as kdb]
+            [korma.core :as kc]
+            [environ.core :refer [env]]))
+
+
+;;;;;; Database
+
+(kdb/defdb pg (kdb/postgres
+                     {:db (env :leintracker-postgres-db)
+                      :user (env :leintracker-postgres-user)
+                      :password (env :leintracker-postgres-pass)}))
+(kc/defentity user)
+(kc/defentity repo (kc/entity-fields :owner :name :tracked))
+(kc/defentity dependencies)
 
 
 ;;;;;; Repos

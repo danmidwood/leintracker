@@ -5,7 +5,6 @@
    [cheshire.core :as json]
    [ring.util.response :as resp]
    [ring.util.codec :as codec]
-   [environ.core :refer [env]]
    [clojure.java.io :as io]
    [taoensso.timbre :as log]
    [tentacles.core :as gh.core]

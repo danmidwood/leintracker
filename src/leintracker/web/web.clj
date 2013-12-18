@@ -4,7 +4,6 @@
             [compojure.route :as route]
             [ring.util.response :as rresponse]
             [ring.middleware.reload :as rreload]
-            [cheshire.core :as json]
             [clojure.java.io :as io]
             [leintracker.core :as core]
             [leintracker.web.views.home :as views.home]

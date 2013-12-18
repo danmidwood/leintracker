@@ -6,6 +6,7 @@
             [taoensso.timbre :as log]
             [clojure.core.reducers :as r]))
 
+
 ;;;; Home page
 (defn home-page [identity]
   (when identity
@@ -24,11 +25,6 @@
         (io/copy reader writer)
         (.deleteOnExit file))
       (lein/run (.getAbsolutePath file)))))
-
-(defn ^:private add-dependencies-to-database [db repo]
-  (if (get (:full-name repo) db)
-    db
-    (assoc db (:full-name repo) (find-dependencies repo))))
 
 (defn get-dependencies [repo]
   (db/get-dependencies repo))
@@ -66,13 +62,18 @@
        (pmap #(assoc % :tracked :tracked))
        (store-repos identity)))
 
+(defn ^:private extract-user-name [identity]
+  (log/info identity)
+  (:user-name ((:authentications identity) (:current identity))))
+
 (defn repos-page [identity]
-  (when (log/spy :debug "Loading repos for" identity)
-    {:user (log/spy (github/user-name identity))
-     :repos (->> (load-repos identity)
-                 (pmap add-dependencies))}))
+    (when (log/spy :debug "Loading repos for" identity)
+      {:user (log/spy (extract-user-name identity))
+       :repos (load-repos identity)}))
 
 (defn repos [identity]
   (when (log/spy :debug "Loading repos for" identity)
-    {:user (log/spy (github/user-name identity))
-     :repos (load-repos identity)}))
+    (let [user-name (log/spy (extract-user-name identity))
+          repos (load-repos identity)]
+      {:user user-name
+       :repos repos})))

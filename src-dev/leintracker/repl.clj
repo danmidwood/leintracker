@@ -9,7 +9,7 @@
 (defn start [& args]
   (log/set-config! [:appenders :spit :enabled?] true)
   (log/set-config! [:shared-appender-config :spit-filename] "/Users/dan/repos/leintracker/leintracker.log")
-  (reset! server (ring-server/serve web/app)))
+  (reset! server (ring-server/serve web/app {:open-browser? false})))
 
 (defn stop []
   (when (not (nil? @server))
