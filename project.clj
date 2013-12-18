@@ -16,7 +16,7 @@
                  [friend-oauth2 "0.1.1"]
                  [environ "0.4.0"]
                  [tentacles "0.2.5"]
-                 [circleci/stefon "0.5.0-SNAPSHOT"]
+                 [cornet "0.1.0"]
                  [com.taoensso/timbre "2.6.3"]
                  [korma "0.3.0-RC6"]
                  [postgresql/postgresql "9.1-901.jdbc4"]]
@@ -26,8 +26,14 @@
              :production {:env {:production true}}}
   :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.3"]
-            [environ/environ.lein "0.2.1"]]
+            [environ/environ.lein "0.2.1"]
+            [s3-wagon-private "1.1.2"]]
+  :deploy-repositories [["snapshots" {:url "s3p://jvm-repository/snapshots/"
+                                      :creds :gpg}
+                         "releases" {:url "s3p://jvm-repositoy/releases/"
+                                     :creds :gpg}]]
   :ring {:handler leintracker.web.web/app}
   :main leintracker.main
+  :aot [leintracker.main]
   :global-vars {*warn-on-reflection* true}
   :min-lein-version "2.0.0")

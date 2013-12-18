@@ -1,4 +1,5 @@
 (ns leintracker.main
+  (:gen-class)
   (:require [ring.adapter.jetty :as ring]
             [leintracker.web.web :as web]
             [taoensso.timbre :as log]))

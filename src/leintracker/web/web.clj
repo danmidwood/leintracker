@@ -10,7 +10,8 @@
             [leintracker.web.views.repos :as views.repos]
             [leintracker.web.auth :as auth]
             [net.cgrand.enlive-html :as html]
-            [stefon.core :as stefon]
+            [cornet.core :as cornet]
+            [cornet.route :as croute]
             [taoensso.timbre :as log]))
 
 (defn render-home
@@ -37,9 +38,7 @@
 
 (defroutes base
   (GET "/" req
-       (render-home (auth/read-identity req)))
-  (route/resources "/" {:root "the-story"})
-  (route/not-found "Not Found"))
+       (render-home (auth/read-identity req))))
 
 (defroutes signed-in
   (GET "/repos" req
@@ -57,6 +56,19 @@
                         flatten
                         clojure.string/join)})))
 
+(defroutes cornet
+  (croute/wrap-url-response
+   (some-fn
+    (cornet.processors.lesscss/wrap-lesscss-processor (cornet.loader/resource-loader "the-story/assets/less")
+                                                      :mode :dev)
+    ;; (cornet/compiled-assets-loader "the-story"
+    ;;                                :lesscss-list ["assets/less/leintracker.less"]
+    ;;                                :mode :prod)
+    (cornet/static-assets-loader "the-story"
+                                 :mode :prod)))
+
+  (route/not-found "Not Found"))
+
 (defn log-exceptions [f]
   (fn [request]
     (try (f request)
@@ -65,8 +77,7 @@
         (throw e)))))
 
 (def app
-  (-> (routes signed-in auth/auth-routes base)
-      (stefon/asset-pipeline {:asset-roots ["resources/the-story/assets"]})
+  (-> (routes signed-in auth/auth-routes base cornet)
       (handler/site)
       (log-exceptions)
       (rreload/wrap-reload '(leintracker.web.web

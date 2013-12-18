@@ -1,6 +1,5 @@
 (ns leintracker.web.views.common
-  (:require [net.cgrand.enlive-html :as html]
-            [stefon.core :as stefon]))
+  (:require [net.cgrand.enlive-html :as html]))
 
 
 (defmacro maybe-content
@@ -24,8 +23,7 @@
 
 (html/defsnippet styles "leintracker/web/html/link-stylesheet.html" [:link]
   []
-  [:link] (html/set-attr :href (stefon/link-to-asset "leintracker.less"
-                                       {:asset-roots ["resources/the-story/assets/less"]})))
+  [:link] (html/set-attr :href "leintracker.css"))
 
 
 
