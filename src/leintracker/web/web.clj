@@ -34,7 +34,7 @@
        (if-let [id (auth/read-identity req)]
          (single-page id)
          (render-home)))
-  (GET "/repos/danmidwood" req
+  (GET "/repos/:user" req
        (rresponse/content-type
         {:status 200
          :body (json/generate-string (core/get-repos (auth/read-identity req))
