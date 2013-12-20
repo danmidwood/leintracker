@@ -15,6 +15,10 @@
             [taoensso.timbre :as log]
             [cheshire.core :as json]))
 
+(def ^:private underscore-opts
+  {:key-fn (fn [k] (-> (name k)
+                       (clojure.string/replace "-" "_")))})
+
 (defn render-home
   ([]
      (let [body (views.home/index nil)]
@@ -34,13 +38,20 @@
        (if-let [id (auth/read-identity req)]
          (single-page id)
          (render-home)))
-  (GET "/repos/:user" req
-       (rresponse/content-type
-        {:status 200
-         :body (json/generate-string (core/get-repos (auth/read-identity req))
-                                    {:key-fn (fn [k] (-> (name k)
-                                                         (clojure.string/replace "-" "_")))})}
-        "application/json")
+  (GET "/repos" [:as req]
+       (-> {:status 200
+            :body (-> (core/get-repos (auth/read-identity req))
+                      (json/generate-string underscore-opts
+                                            ))}
+           (rresponse/content-type "application/json")))
+  (GET "/repos/:user/:repo/project" [user repo :as req]
+       (let [file (core/project-file (auth/read-identity req)
+                                 user
+                                 repo)]
+         (rresponse/content-type
+          {:status 200
+           :body (json/generate-string {:project_file file})}
+          "application/json"))
 )
   (GET "/repos/:user/project/:project/dependencies" [user project]
        (do  (log/info "Getting repos")

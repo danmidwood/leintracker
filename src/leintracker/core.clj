@@ -44,10 +44,9 @@
 
 
 
-(defn ^:private add-is-lein-project [identity repo]
-  (let [augmented-repo (assoc repo :is-lein? (github/file-exists? identity "/project.clj" repo))]
-    (log/info :debug (str "Is lein project? " (:full-name repo) " " (:is-lein? augmented-repo)))
-    augmented-repo))
+(defn project-file [identity user repo]
+  (when (github/file-exists? identity user repo "/project.clj")
+    "./project.clj"))
 
 (defn ^:private add-dependency-to-repo [repo]
   (assoc repo :dependencies (find-dependencies repo)))

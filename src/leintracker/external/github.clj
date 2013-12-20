@@ -26,11 +26,11 @@
   (let [location (make-github-url full-name)]
     (io/reader location)))
 
-(defn file-exists? [identity file {:keys [full-name]}]
+(defn file-exists? [identity user repo file]
   (->> (:current identity)
        (head-github (log/spy :debug
                              "Checking for file:"
-                             (format "/repos/%s/contents%s" full-name file)))
+                             (format "/repos/%s/%s/contents%s" user repo file)))
        :status
        (= 200)))
 
