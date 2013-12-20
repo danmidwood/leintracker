@@ -23,7 +23,7 @@
 
 (html/defsnippet styles "leintracker/web/html/link-stylesheet.html" [:link]
   []
-  [:link] (html/set-attr :href "leintracker.css"))
+  [:link] (html/set-attr :href "/leintracker.css"))
 
 
 

@@ -34,7 +34,7 @@
     (assoc repo :dependencies (get-dependencies repo))
     repo))
 
-(defn ^:private get-repos [identity]
+(defn get-repos [identity]
   "Load up the repos for the user, first trying a local cache, and then falling back to GitHub"
   (if (db/have-repos? identity)
     (db/lookup-repos identity)
@@ -57,10 +57,12 @@
   repos)
 
 (defn ^:private load-repos [identity]
-  (->> (get-repos identity)
-       (pmap (partial add-is-lein-project identity))
-       (pmap #(assoc % :tracked :tracked))
-       (store-repos identity)))
+  (get-repos identity)
+ ;; (->> (get-repos identity)
+ ;;       (pmap (partial add-is-lein-project identity))
+ ;;       (pmap #(assoc % :tracked :tracked))
+ ;;       (store-repos identity))
+ )
 
 (defn ^:private extract-user-name [identity]
   (log/info identity)

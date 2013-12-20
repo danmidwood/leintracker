@@ -46,4 +46,11 @@ pom.xml
 .DS_Store
 
 /.lein-env
+
+### app, running
+
 /leintracker.log
+
+### bower
+/node_modules
+resources/the-story/assets/js/lib

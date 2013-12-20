@@ -7,7 +7,7 @@
 (defn start [port]
   (log/info "Starting server on port: " port)
   (ring/run-jetty (var web/app)
-                  {:port (or port 8080) :join? false}))
+                  {:port (or port 3000) :join? false}))
 
 (defn -main
   ([] (-main 8080))

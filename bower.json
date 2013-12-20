@@ -1,0 +1,7 @@
+{
+    "name": "leintracker",
+    "version": "0.1.0-SNAPSHOT",
+    "dependencies": {
+        "react": "0.8.0"
+    }
+}

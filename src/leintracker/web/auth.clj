@@ -32,8 +32,6 @@
 
 (defn redirect-to-home [req] (resp/redirect (str (:context req) "/")))
 
-(defn redirect-to-logged-in [req] (resp/redirect (str (:context req) "/repos")))
-
 (def read-identity friend/identity)
 
 (defroutes github-routes-unsecure
@@ -44,7 +42,7 @@
        (do
          (log/info "Logging in" req)
          (friend/authenticated
-          (redirect-to-logged-in req)))))
+          (redirect-to-home req)))))
 
 (defn ^:private credential-fn [creds]
   (let

@@ -1,24 +1,6 @@
 <div id="repositories" class="page">
-  <div class="inner-page repos">
+  <div class="inner-page repos" id="select">
+    <div class="row-fluid" id="row">
+    </div>
   </div>
-  <i class="icon-template" style="display:none;"/>
-  <script>
-  $(".selectable").each(function(idx) {
-    $(".icon-template").clone()
-    .removeClass("icon-template")
-    .addClass("icon-")
-    .appendTo($(this))
-    .hide()
-    .fadeIn("slow");
-
-    $(this).click(function(){
-      if($(this).hasClass('selected')){
-        $(this).removeClass('selected').addClass('not-selected');}
-      else {
-        $(this).removeClass('not-selected').addClass('selected');
-      }
-      return false;
-    });
-  });
-  </script>
 </div>

@@ -27,11 +27,13 @@
   :hooks [environ.leiningen.hooks]
   :plugins [[lein-ring "0.8.3"]
             [environ/environ.lein "0.2.1"]
-            [s3-wagon-private "1.1.2"]]
+            [s3-wagon-private "1.1.2"]
+            [org.clojars.wokier/lein-bower "0.3.0"]]
   :deploy-repositories [["snapshots" {:url "s3p://jvm-repository/snapshots/"
                                       :creds :gpg}
                          "releases" {:url "s3p://jvm-repositoy/releases/"
                                      :creds :gpg}]]
+  :prep-tasks ["javac" "compile" "bower"]
   :ring {:handler leintracker.web.web/app}
   :main leintracker.main
   :aot [leintracker.main]

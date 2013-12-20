@@ -3,12 +3,12 @@
 
 /* Repo selection boxes */
 /* Copy accordion style */
-repository-selection {
+.repository-selection {
   margin-bottom: @baseLineHeight;
 }
 
 // Group == heading + body
-repository-selection-group {
+.repository-selection-group {
   margin-bottom: 2px;
   border: 1px solid #e5e5e5;
   .border-radius(@baseBorderRadius);
@@ -19,7 +19,7 @@ repository-selection-group {
   overflow: hidden;
 }
 
-repository-selection-heading {
+.repository-selection-heading {
   border-bottom: 0;
   display: block;
   padding: 8px 15px 2px 15px;
@@ -31,7 +31,7 @@ repository-selection-heading {
     float: right;
     font-size: 18px;
   }
-  repo-description {
+  .repo-description {
     display: block;
     font-size: 0.5em;
     overflow:hidden;
@@ -39,7 +39,7 @@ repository-selection-heading {
   }
 }
 
-repository-selection-inner {
+.repository-selection-inner {
   display: block;
   padding: 9px 15px;
   border-top: 0;
@@ -63,6 +63,12 @@ repository-selection-inner {
       content: "\f096";
     }
   }
+  div.lein {
+  }
+  div.not-lein {
+    text-decoration:line-through;
+  }
+
   .github-link {
     font-size: 10px;
     padding: 0px;
@@ -78,4 +84,8 @@ repository-selection-inner {
       content: "\00a0\f092"
     }
   }
+}
+
+.repository-selection-box {
+  margin-bottom: 1em;
 }

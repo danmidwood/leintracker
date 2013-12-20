@@ -12,39 +12,36 @@
             [net.cgrand.enlive-html :as html]
             [cornet.core :as cornet]
             [cornet.route :as croute]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log]
+            [cheshire.core :as json]))
 
 (defn render-home
-  ([identity]
-     (let [data (core/home-page identity)
-           body (views.home/index data)]
+  ([]
+     (let [body (views.home/index nil)]
        {:status 200
         :body (apply str body)})))
 
-(defn render-repos
-  ([identity]
-     (let [data (core/repos-page identity)
-           body (views.repos/index data)]
+(defn single-page
+  ([id]
+     (let [data (core/repos-page id)
+           body (views.repos/single-page data)]
        {:status 200
         :body (apply str body)})))
 
-(defn display-repos
-  ([identity]
-     (let [data (core/repos identity)
-           body (views.repos/selection data)]
-       {:status 200
-        :body (apply str body)})))
-
-
-(defroutes base
-  (GET "/" req
-       (render-home (auth/read-identity req))))
 
 (defroutes signed-in
-  (GET "/repos" req
-       (render-repos (auth/read-identity req)))
-  (GET "/repos/select" req
-       (display-repos (auth/read-identity req)))
+  (GET "/" req
+       (if-let [id (auth/read-identity req)]
+         (single-page id)
+         (render-home)))
+  (GET "/repos/danmidwood" req
+       (rresponse/content-type
+        {:status 200
+         :body (json/generate-string (core/get-repos (auth/read-identity req))
+                                    {:key-fn (fn [k] (-> (name k)
+                                                         (clojure.string/replace "-" "_")))})}
+        "application/json")
+)
   (GET "/repos/:user/project/:project/dependencies" [user project]
        (do  (log/info "Getting repos")
             {:status 200
@@ -61,11 +58,9 @@
    (some-fn
     (cornet.processors.lesscss/wrap-lesscss-processor (cornet.loader/resource-loader "the-story/assets/less")
                                                       :mode :dev)
-    ;; (cornet/compiled-assets-loader "the-story"
-    ;;                                :lesscss-list ["assets/less/leintracker.less"]
-    ;;                                :mode :prod)
     (cornet/static-assets-loader "the-story"
-                                 :mode :prod)))
+                                 :from-filesystem false
+                                 :mode :dev)))
 
   (route/not-found "Not Found"))
 
@@ -77,7 +72,7 @@
         (throw e)))))
 
 (def app
-  (-> (routes signed-in auth/auth-routes base cornet)
+  (-> (routes signed-in auth/auth-routes cornet)
       (handler/site)
       (log-exceptions)
       (rreload/wrap-reload '(leintracker.web.web

@@ -103,7 +103,7 @@
 
 (html/defsnippet repository-box "leintracker/web/html/repositories-selection-box.html" [:repository-selection-box]
   [repo]
-  [:repository-selection-box] (html/add-class "span4")
+  [:repository-selection-box] (html/set-attr "span4")
   [:repo-name] (html/content (:name repo))
   [:repo-description]  (common/maybe-content (if (clojure.string/blank? (:description repo))
                                                "No description"
@@ -129,9 +129,7 @@
 
 
 (html/defsnippet repositories-selection-page "leintracker/web/html/repositories-selection.html" [:#repositories]
-  [repos]
-  [:.repos] (apply html/do->
-                   (map (comp html/append repository-row) (partition-all 3 repos))))
+  [])
 
 
 
@@ -147,10 +145,10 @@
    (html/append (repositories-page repos))
    (html/append (common/footer))))
 
-(defn ^:private build-repos-selection-body [user repos]
+(defn ^:private build-repos-selection-body [user]
   (html/do->
    (html/append (common/nav-bar user (build-nav-bar user)))
-   (html/append (repositories-selection-page repos))
+   (html/append (repositories-selection-page))
    (html/append (common/footer))))
 
 
@@ -164,11 +162,11 @@
   [:h1.logo] (common/maybe-content logo)
   [:body] (build-repos-body user repos))
 
-(html/deftemplate selection "leintracker/web/html/template.html"
-  [{:keys [title logo user repos]}]
+(html/deftemplate single-page "leintracker/web/html/template.html"
+  [{:keys [title logo user]}]
   [:head] (html/do->
            (html/append (common/styles))
            (html/append common/analytics))
   [:title] (common/maybe-content title)
   [:h1.logo] (common/maybe-content logo)
-  [:body] (build-repos-selection-body user repos))
+  [:body] (build-repos-selection-body user))

@@ -19,27 +19,31 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
     if (typeof jQuery == 'undefined') {
-      document.write(unescape("%3Cscript src='assets/js/jquery-1.9.1.min.js' type='text/javascript'%3E%3C/script%3E"));
+      document.write(unescape("%3Cscript src='/assets/js/jquery-1.9.1.min.js' type='text/javascript'%3E%3C/script%3E"));
     }
     </script>
 
     <!--Has to be in head, to lazy load images.
     Minimize in production. -->
+    <script src="/assets/js/lazyload.js"></script>
+    <script src="/assets/js/jRespond.js"></script>
+    <script src="/assets/js/spin.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/lightbox.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
 
-    <script src="assets/js/lazyload.js"></script>
-    <script src="assets/js/jRespond.js"></script>
-    <script src="assets/js/spin.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/lightbox.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-
-    <script src="assets/js/responsive-nav.js"></script>
+    <script src="/assets/js/responsive-nav.js"></script>
 
     <!-- Main js fail. -->
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/main.js"></script>
 
     <!-- History just for index page -->
-    <script src="assets/js/jquery.history.js"></script>
+    <script src="/assets/js/jquery.history.js"></script>
+
+    <script src="/assets/js/lib/react/react-with-addons.js"></script>
+    <script src="/assets/js/lib/react/JSXTransformer.js"></script>
+    <script type="text/jsx" src="/assets/js/react/everything.jsx"></script>
+
     <script>
         // History, and back button
 
